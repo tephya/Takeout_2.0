@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="../css/myorder.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <div class="header-content">
+                <h1>我的订单</h1>
+                <div class="header-actions">
+                    <a href="../../homepage/html/index.html" class="back-link">
+                        <span>返回首页</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="order-container">
+                <div class="section-title">
+                    <span class="title-text">外卖自取</span>
+                </div>
+                <div id="order-content" class="order-content">
+                    <!-- 订单内容将通过JavaScript动态加载 -->
+                    <div class="loading">加载中...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../js/myorder.js"></script>
+</body>
+</html>

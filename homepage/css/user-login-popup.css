@@ -1,0 +1,16 @@
+css.user-avator {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+img#is-login {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+}

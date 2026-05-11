@@ -1,0 +1,359 @@
+-- 客户信息表
+drop table if exists CustomerInfo;
+CREATE TABLE CustomerInfo (
+    customer_id CHAR(10) PRIMARY KEY,
+    `password` CHAR(20) NOT NULL,
+    customer_name VARCHAR(50) NOT NULL,
+    customer_sex CHAR(10) CHECK(customer_sex IN('男','女')),
+    customer_phone VARCHAR(20) NOT NULL,
+    customer_address VARCHAR(200) NOT NULL,
+    avatar VARCHAR(255) DEFAULT NULL
+);
+
+-- 商家信息表
+drop table if exists MerchantInfo;
+CREATE TABLE MerchantInfo (
+    merchant_id CHAR(10) PRIMARY KEY,
+    merchant_name VARCHAR(100) NOT NULL,
+    merchant_phone VARCHAR(20) NOT NULL,
+    merchant_address VARCHAR(200) NOT NULL,
+    opening_time TIME NOT NULL,
+    closing_time TIME NOT NULL,
+    password CHAR(20) NOT NULL DEFAULT '',
+    customer_id VARCHAR(20) NOT NULL,
+    CONSTRAINT fk_merchant_customer FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id)
+);
+
+-- 商品信息表
+drop table if exists ProductInfo;
+CREATE TABLE ProductInfo (
+    product_id CHAR(10) PRIMARY KEY,
+    merchant_id CHAR(10) NOT NULL,
+    product_name VARCHAR(100) NOT NULL,
+    product_price DECIMAL(10, 2) NOT NULL,
+    product_description TEXT,
+    click_count INT DEFAULT 0,
+    good_review_count INT NOT NULL DEFAULT 0 COMMENT '好评数',
+    bad_review_count INT NOT NULL DEFAULT 0 COMMENT '差评数',
+    FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id)
+);
+
+-- 销售信息表
+drop table if exists SalesInfo;
+CREATE TABLE SalesInfo (
+    sales_id VARCHAR(20) PRIMARY KEY,
+    merchant_id CHAR(10) NOT NULL,
+    product_id CHAR(10) NOT NULL,
+    sales_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sales_quantity INT NOT NULL,
+    FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id),
+    FOREIGN KEY (product_id) REFERENCES ProductInfo(product_id)
+);
+
+-- 骑手信息表
+drop table if exists RiderInfo;
+CREATE TABLE RiderInfo (
+    rider_id CHAR(10) PRIMARY KEY,
+    rider_name VARCHAR(50) NOT NULL,
+    rider_phone VARCHAR(20) NOT NULL,
+    score DECIMAL(2,1) NOT NULL
+);
+
+-- 客户订单表
+drop table if exists CustomerOrderInfo;
+CREATE TABLE CustomerOrderInfo (
+    order_id CHAR(10) PRIMARY KEY,
+    customer_id CHAR(10) NOT NULL,
+    merchant_id CHAR(10) NOT NULL,
+    product_id CHAR(10) NOT NULL,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    order_quantity INT NOT NULL,
+    total_price DECIMAL(10, 2) NOT NULL,
+    order_status ENUM('Pending', 'Processing', 'Completed', 'Cancelled') DEFAULT 'Pending',
+    FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id),
+    FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id),
+    FOREIGN KEY (product_id) REFERENCES ProductInfo(product_id)
+);
+
+-- 骑手配送表
+drop table if exists RiderDeliveryInfo;
+CREATE TABLE RiderDeliveryInfo (
+    delivery_id CHAR(20) PRIMARY KEY,
+    order_id CHAR(10) NOT NULL,
+    rider_id CHAR(10) NOT NULL,
+    pickup_time TIMESTAMP,
+    delivery_time TIMESTAMP,
+    delivery_status ENUM('Picked Up', 'In Transit', 'Delivered') DEFAULT 'Picked Up',
+    FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id),
+    FOREIGN KEY (rider_id) REFERENCES RiderInfo(rider_id)
+);
+
+-- 客户取餐表
+drop table if exists CustomerPickupInfo;
+CREATE TABLE CustomerPickupInfo (
+    pickup_id CHAR(10) PRIMARY KEY,
+    order_id CHAR(10) NOT NULL,
+    pickup_time TIMESTAMP DEFAULT NULL,
+    FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id)
+);
+
+-- 商品评价表
+drop table if exists ProductReview;
+CREATE TABLE ProductReview (
+    review_id CHAR(10) PRIMARY KEY,
+    order_id CHAR(10) NOT NULL,
+    customer_id CHAR(10) NOT NULL,
+    product_id CHAR(10) NOT NULL,
+    review_text TEXT,
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id),
+    FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id),
+    FOREIGN KEY (product_id) REFERENCES ProductInfo(product_id)
+);
+
+-- 售后服务表
+drop table if exists AfterSales;
+CREATE TABLE AfterSales (
+    after_sales_id CHAR(20) PRIMARY KEY,
+    order_id CHAR(20) NOT NULL,
+    customer_id CHAR(20) NOT NULL,
+    issue_description TEXT NOT NULL,
+    issue_status ENUM('Pending', 'Resolved', 'Rejected') DEFAULT 'Pending',
+    handling_date TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id),
+    FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id)
+);
+
+-- 视图：客户订单
+CREATE OR REPLACE VIEW CustomerOrder AS
+SELECT 
+    o.order_id,
+    o.customer_id,
+    c.customer_name,
+    c.customer_phone,
+    o.merchant_id,         
+    m.merchant_name,
+    p.product_name,
+    o.order_quantity,
+    o.total_price,
+    o.order_status,
+    o.order_date
+FROM CustomerOrderInfo o
+LEFT JOIN CustomerInfo c ON o.customer_id = c.customer_id
+LEFT JOIN MerchantInfo m ON o.merchant_id = m.merchant_id
+LEFT JOIN ProductInfo p ON o.product_id = p.product_id;
+
+-- 视图：商家销售统计
+CREATE VIEW MerchantSales AS
+SELECT 
+    m.merchant_id,
+    m.merchant_name,
+    p.product_name,
+    SUM(s.sales_quantity) AS total_sold,
+    SUM(s.sales_quantity * p.product_price) AS total_revenue
+FROM SalesInfo s,
+     ProductInfo p,
+     MerchantInfo m
+WHERE 
+    s.product_id = p.product_id AND
+    s.merchant_id = m.merchant_id
+GROUP BY m.merchant_id, p.product_id;
+
+-- 视图：骑手任务
+CREATE VIEW RiderTasks AS
+SELECT 
+    d.delivery_id,
+    r.rider_name,
+    r.rider_phone,
+    o.order_id,
+    d.delivery_status,
+    d.pickup_time,
+    d.delivery_time,
+    TIMESTAMPDIFF(MINUTE, d.pickup_time, d.delivery_time) AS delivery_duration
+FROM RiderDeliveryInfo d,
+     RiderInfo r,
+     CustomerOrderInfo o
+WHERE 
+    d.rider_id = r.rider_id AND
+    d.order_id = o.order_id;
+
+-- 视图：商品评价汇总
+CREATE VIEW ProductReviews AS
+SELECT 
+    p.product_id,
+    p.product_name,
+    COUNT(r.review_id) AS review_count,
+    ROUND(AVG(r.rating), 1) AS average_rating
+FROM ProductReview r,
+     ProductInfo p
+WHERE r.product_id = p.product_id
+GROUP BY p.product_id;
+
+-- 视图：每日销售报告
+CREATE VIEW DailySalesReport AS
+SELECT 
+    DATE(s.sales_date) AS sales_day,
+    m.merchant_name,
+    COUNT(s.sales_id) AS total_orders,
+    SUM(s.sales_quantity * p.product_price) AS daily_revenue
+FROM SalesInfo s,
+     ProductInfo p,
+     MerchantInfo m
+WHERE 
+    s.product_id = p.product_id AND
+    s.merchant_id = m.merchant_id
+GROUP BY sales_day, m.merchant_id;
+
+-- 索引
+CREATE INDEX idx_customer_phone ON CustomerInfo(customer_phone);
+CREATE INDEX idx_customer_address ON CustomerInfo(customer_address(50));
+CREATE INDEX idx_product_name ON ProductInfo(product_name);
+CREATE FULLTEXT INDEX ft_product_desc ON ProductInfo(product_description);
+CREATE INDEX idx_order_date_range ON CustomerOrderInfo(order_date);
+CREATE INDEX idx_review_date ON ProductReview(review_date);
+CREATE INDEX idx_merchant_time_sales ON SalesInfo(merchant_id, sales_date);
+
+-- 触发器：计算订单总价
+DELIMITER $$
+CREATE TRIGGER trg_calculate_total_price
+BEFORE INSERT ON CustomerOrderInfo
+FOR EACH ROW
+BEGIN
+    DECLARE v_product_price DECIMAL(10,2);
+    SELECT product_price INTO v_product_price
+    FROM ProductInfo
+    WHERE product_id = NEW.product_id;
+    IF v_product_price IS NULL THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = '商品不存在，无法创建订单';
+    END IF;
+    SET NEW.total_price = v_product_price * NEW.order_quantity;
+END$$
+DELIMITER ;
+
+-- 触发器：生成销售记录
+DELIMITER $$
+CREATE TRIGGER trg_generate_sales_record
+AFTER UPDATE ON CustomerOrderInfo
+FOR EACH ROW
+BEGIN
+    IF NEW.order_status = 'Completed' AND OLD.order_status != 'Completed' THEN
+        INSERT INTO SalesInfo (sales_id, merchant_id, product_id, sales_quantity)
+        VALUES (
+            CONCAT('S', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')),
+            NEW.merchant_id,
+            NEW.product_id,
+            NEW.order_quantity
+        );
+    END IF;
+END$$
+DELIMITER ;
+
+-- 触发器：评价验证
+DELIMITER $$
+CREATE TRIGGER trg_validate_review
+BEFORE INSERT ON ProductReview
+FOR EACH ROW
+BEGIN
+    DECLARE v_order_status VARCHAR(20);
+    DECLARE v_order_count INT DEFAULT 0;
+    SELECT COUNT(*)
+    INTO v_order_count
+    FROM CustomerOrderInfo
+    WHERE order_id = NEW.order_id;
+    IF v_order_count = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = '订单不存在，无法评价';
+    END IF;
+    SELECT order_status
+    INTO v_order_status
+    FROM CustomerOrderInfo
+    WHERE order_id = NEW.order_id;
+    IF v_order_status != 'Completed' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = '只能对已完成订单进行评价';
+    END IF;
+END$$
+DELIMITER ;
+
+-- 触发器：分配骑手
+DROP TRIGGER IF EXISTS trg_assign_rider;
+DELIMITER $$
+CREATE TRIGGER trg_assign_rider
+AFTER UPDATE ON CustomerOrderInfo
+FOR EACH ROW
+BEGIN
+    DECLARE selected_rider CHAR(10);
+    DECLARE rider_count INT;
+    IF NEW.order_status = 'Processing' AND OLD.order_status != 'Processing' THEN
+        SELECT COUNT(*) INTO rider_count FROM RiderInfo;
+        IF rider_count = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '无可用骑手';
+        END IF;
+        SELECT rider_id INTO selected_rider
+        FROM RiderInfo
+        ORDER BY RAND()
+        LIMIT 1;
+        INSERT INTO RiderDeliveryInfo (delivery_id, order_id, rider_id, delivery_status)
+        VALUES (
+            CONCAT('D', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')),
+            NEW.order_id,
+            selected_rider,
+            'In Transit'
+        );
+    END IF;
+END$$
+DELIMITER ;
+
+-- 触发器：处理订单取消
+DELIMITER $$
+CREATE TRIGGER trg_handle_cancellation
+AFTER UPDATE ON CustomerOrderInfo
+FOR EACH ROW
+BEGIN
+    IF NEW.order_status = 'Cancelled' AND OLD.order_status != 'Cancelled' THEN
+        DELETE FROM SalesInfo
+        WHERE product_id = NEW.product_id
+          AND merchant_id = NEW.merchant_id
+          AND sales_quantity = NEW.order_quantity;
+        INSERT INTO AfterSales (after_sales_id, order_id, customer_id, issue_description)
+        VALUES (
+            CONCAT('AS', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')),
+            NEW.order_id,
+            NEW.customer_id,
+            '订单已取消'
+        );
+    END IF;
+END$$
+DELIMITER ;
+
+-- 触发器：创建取餐记录
+DELIMITER $$
+CREATE TRIGGER trg_auto_create_pickup
+AFTER INSERT ON CustomerOrderInfo
+FOR EACH ROW
+BEGIN
+    SET @pickup_id = CONCAT('PU', RIGHT(NEW.order_id, 8));
+    INSERT INTO CustomerPickupInfo (pickup_id, order_id)
+    VALUES (
+        @pickup_id,
+        NEW.order_id
+    );
+END$$
+DELIMITER ;
+
+-- 触发器：更新取餐时间
+DELIMITER $$
+CREATE TRIGGER trg_auto_update_pickup_time
+AFTER UPDATE ON RiderDeliveryInfo
+FOR EACH ROW
+BEGIN
+    IF NEW.delivery_status = 'Delivered' AND OLD.delivery_status != 'Delivered' THEN
+        UPDATE CustomerPickupInfo
+        SET pickup_time = CURRENT_TIMESTAMP
+        WHERE order_id = NEW.order_id;
+    END IF;
+END$$
+DELIMITER ;
+

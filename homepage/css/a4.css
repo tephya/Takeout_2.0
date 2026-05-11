@@ -1,0 +1,143 @@
+.merchant-block {
+    width: 98%;
+    margin: 20px 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.pos-theme-list-sell-image {
+    width: 98%;
+    height: 320px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 8px;
+    margin: 0 5px;
+    margin-top: 5px;
+    background-image: url('../../Merchant/Merchants/百乐中心/P000100009.webp');
+    display: block;
+    position: relative;
+}
+
+.bookmark-icon {
+    position: absolute;
+    top: 20px;
+    right: 18px;
+    height: 28px;
+    width: auto;
+    background: none;
+}
+
+.bookmark-num {
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+}
+
+.label-start-selling-time-container {
+    z-index: 9;
+    position: absolute;
+    top: 300px;
+    right: 30px;
+    width: 108px;
+    height: 35px;
+    background-color: rgb(251, 251, 251);
+    border-radius: 28px;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.label-start-selling-time-container img {
+    height: 27px;
+    width: auto;
+}
+
+.start-selling-time {
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.label-close-time-container {
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 500px;
+    bottom: -38px;
+}
+
+.pos-theme-list-sell-info {
+    width: 100%;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.merchant-text-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.pos-theme-list-sell-info-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.pos-theme-list-sell-info-address {
+    font-weight: lighter;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.food-brief-evaluate-emoji-container {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.yammy-icon {
+    height: 16px;
+    width: auto;
+    background: none;
+}
+
+.dame-icon {
+    height: 16px;
+    width: auto;
+    background: none;
+}
+
+.pos-theme-list-sell-info button {
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 8px;
+    height: 40px;
+    width: 88px;
+    background-color: rgb(250, 206, 48);
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.pos-theme-list-sell-info button:hover {
+    background-color: rgb(230, 188, 30);
+    box-shadow: 0 2px 8px rgba(250, 206, 48, 0.5);
+}

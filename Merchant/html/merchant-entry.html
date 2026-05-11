@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家入驻 | 开饭啦</title>
+    
+    <link rel="stylesheet" href="../../homepage/css/main.css">
+    <link rel="stylesheet" href="../css/merchant-entry.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="navbar">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='../../homepage/html/index.html'">
+                <img src="../images/arrow-left.svg" alt="返回">
+                <span>返回首页</span>
+            </button>
+        </div>
+        <div class="nav-center">
+            <h1>商家入驻</h1>
+        </div>
+        <div class="nav-right"></div>
+    </div>
+
+    <!-- 主要内容 -->
+    <div class="main-container">
+        <!-- 入驻状态区域 -->
+        <div class="status-section" id="status-section">
+            <!-- 未入驻状态 -->
+            <div class="not-registered" id="not-registered">
+                <div class="status-card">
+                    <img src="../images/store-pending.svg" alt="待入驻" class="status-icon">
+                    <h2>您还未入驻</h2>
+                    <p>加入我们，开启您的外卖业务之旅</p>
+                    <button class="start-registration-btn" onclick="showRegistrationForm()">
+                        立即入驻
+                    </button>
+                </div>
+            </div>
+
+            <button class="login-btn" onclick="showMerchantLoginForm()" id="login-btn">已有账号？去登录</button>
+
+            <!-- 登录表单（初始隐藏） -->
+            <div class="merchant-login-section" id="merchant-login-section" style="display: none;">
+                <form id="merchant-login-form">
+                    <div class="form-group">
+                        <label>手机号</label>
+                        <input type="tel" id="login-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="submit-section">
+                        <button type="button" onclick="hideMerchantLoginForm()">取消</button>
+                        <button type="submit">登录</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 已入驻状态 -->
+            <div class="already-registered" id="already-registered" style="display: none;">
+                <div class="status-card">
+                    <img src="../images/store-verified.svg" alt="已入驻" class="status-icon">
+                    <h2>入驻成功</h2>
+                    <div class="merchant-info">
+                        <div class="merchant-id">
+                            <span class="label">商家ID：</span>
+                            <span class="value" id="merchant-id-display">M000000001</span>
+                        </div>
+                        <div class="merchant-name">
+                            <span class="label">商家名称：</span>
+                            <span class="value" id="merchant-name-display">示例商家</span>
+                        </div>
+                        <div class="merchant-status">
+                            <span class="label">状态：</span>
+                            <span class="status-badge active">营业中</span>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="manage-btn" onclick="window.location.href='merchant-dashboard.html'">
+                            管理店铺
+                        </button>
+                        <button class="view-orders-btn" onclick="window.location.href='merchant-orders.html'">
+                            查看订单
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 入驻表单区域 -->
+        <div class="registration-form-section" id="registration-form-section" style="display: none;">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>商家信息登记</h2>
+                    <p>请填写真实有效的商家信息</p>
+                </div>
+
+                <form id="merchant-registration-form">
+                    <!-- 商家ID（自动生成） -->
+                    <div class="form-group">
+                        <label>商家ID</label>
+                        <div class="auto-generated-field">
+                            <input type="text" id="merchant-id" readonly>
+                            <span class="auto-label">系统自动生成</span>
+                        </div>
+                    </div>
+
+                    <!-- 商家名称 -->
+                    <div class="form-group">
+                        <label>商家名称 <span class="required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="merchant-name" 
+                            required 
+                            maxlength="50" 
+                            placeholder="请输入商家名称"
+                        >
+                        <div class="field-hint">商家名称将显示在用户端，请使用正式的店铺名称</div>
+                    </div>
+
+                    <!-- 联系电话 -->
+                    <div class="form-group">
+                        <label>联系电话 <span class="required">*</span></label>
+                        <div class="phone-input-group">
+                            <span class="country-code">+86</span>
+                            <input 
+                                type="tel" 
+                                id="contact-phone" 
+                                required 
+                                placeholder="请输入联系电话"
+                                pattern="[0-9]{8,15}"
+                            >
+                        </div>
+                        <div class="field-hint">此电话将用于订单通知和客服联系</div>
+                    </div>
+
+                    <!-- 营业地址 -->
+                    <div class="form-group">
+                        <label>营业地址 <span class="required">*</span></label>
+                        <textarea 
+                            id="business-address" 
+                            required 
+                            maxlength="200" 
+                            placeholder="请输入详细的营业地址，包括街道、门牌号等"
+                            rows="3"
+                        ></textarea>
+                        <div class="field-hint">请提供准确的地址，以便客户和配送员找到您的店铺</div>
+                    </div>
+
+                    <!-- 营业时间 -->
+                    <div class="form-group">
+                        <label>营业时间 <span class="required">*</span></label>
+                        <div class="time-range-group">
+                            <div class="time-input">
+                                <label class="time-label">开始时间</label>
+                                <input type="time" id="start-time" required>
+                            </div>
+                            <div class="time-separator">至</div>
+                            <div class="time-input">
+                                <label class="time-label">结束时间</label>
+                                <input type="time" id="end-time" required>
+                            </div>
+                        </div>
+                        <div class="field-hint">营业时间外的订单将无法接收</div>
+                    </div>
+
+                    <!-- 设置密码 -->
+                    <div class="form-group">
+                        <label>设置密码 <span class="required">*</span></label>
+                        <input type="password" id="merchant-password" required maxlength="20" placeholder="请输入密码">
+                    </div>
+
+                    <!-- 服务条款同意 -->
+                    <div class="terms-section">
+                        <div class="terms-checkbox">
+                            <input type="checkbox" id="agree-terms" required>
+                            <label for="agree-terms">
+                                我已阅读并同意
+                                <a href="merchant-terms.html" target="_blank">《商家入驻服务协议》</a>
+                                和
+                                <a href="privacy-policy.html" target="_blank">《隐私政策》</a>
+                            </label>
+                        </div>
+                        <div class="terms-content">
+                            <p>我承诺遵守以下规定：</p>
+                            <ul>
+                                <li>提供真实、准确的商家信息</li>
+                                <li>确保食品安全和质量</li>
+                                <li>按时处理订单，提供优质服务</li>
+                                <li>遵守平台相关规则和政策</li>
+                                <li>维护良好的商业信誉</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <div class="submit-section">
+                        <button type="button" class="cancel-btn" onclick="hideRegistrationForm()">
+                            取消
+                        </button>
+                        <button type="submit" class="submit-btn" id="submit-registration">
+                            提交申请
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 成功页面 -->
+        <div class="success-section" id="success-section" style="display: none;">
+            <div class="success-card">
+                <img src="../images/success.svg" alt="成功" class="success-icon">
+                <h2>恭喜您入驻成功！</h2>
+                <div class="success-info">
+                    <p>您的商家ID是：<span class="merchant-id-text" id="success-merchant-id"></span></p>
+                    <p>我们将在1-2个工作日内对您的信息进行审核</p>
+                    <p>审核通过后，您就可以开始在平台上经营了</p>
+                </div>
+                <div class="success-actions">
+                    <button class="continue-btn" onclick="window.location.href='../../homepage/html/index.html'">
+                        返回首页
+                    </button>
+                    <button class="dashboard-btn" onclick="window.location.href='merchant-dashboard.html'">
+                        进入管理中心
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/merchant-entry.js"></script>
+</body>
+</html> 
