@@ -1,0 +1,12 @@
+/* ================================================================
+   base/typography.css — Base Typography
+   body 字体只在这里定义一次。
+   ================================================================ */
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-base);
+    color: var(--clr-text);
+    line-height: 1.6;
+    background: var(--clr-bg);
+}

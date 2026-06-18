@@ -1,0 +1,89 @@
+takeout_System-main/
+├── public/
+│   ├── index.html       
+│   ├── merchant.html 
+│   ├── merchant-menu.html
+│   ├── search.html 
+│   ├── myorder.html
+│   ├── account.html
+│   ├── merchant-entry.html
+│   ├── merchant-login.html
+│   ├── merchant-register.html
+│   ├── merchant-dashboard.html 
+│   ├── merchant-orders.html
+│   ├── rider.html
+│   ├── admin-login.html
+│   ├── admin-dashboard.html
+│   ├── css/
+│   │   ├── global.css
+│   │   ├── base/
+│   │   │   ├── variables.css
+│   │   │   ├── reset.css
+│   │   │   └── typography.css
+│   │   ├── components/
+│   │   │   ├── form.css
+│   │   │   ├── modal.css
+│   │   │   ├── status.css
+│   │   │   ├── toggle.css
+│   │   │   ├── state.css
+│   │   │   └── topbar.css
+│   │   └── pages/
+│   │       ├── home.css 
+│   │       ├── merchant-page.css 
+│   │       ├── merchant-menu.css  
+│   │       ├── search.css  
+│   │       ├── auth-popup.css
+│   │       ├── account.css 
+│   │       ├── merchant-entry.css
+│   │       ├── merchant-orders.css
+│   │       ├── myorder.css
+│   │       ├── order-popup.css
+│   │       ├── rider.css
+│   │       └── admin.css
+│   ├── js/
+│   │   ├── map-cuisine.js 
+│   │   ├── merchant-info.js 
+│   │   ├── merchant-page.js
+│   │   ├── merchant-menu.js
+│   │   ├── search.js
+│   │   ├── cart.js  
+│   │   ├── account.js 
+│   │   ├── myorder.js  
+│   │   ├── common-utils.js
+│   │   ├── login-popup.js
+│   │   ├── merchant-dashboard.js
+│   │   ├── merchant-entry.js
+│   │   ├── merchant-login.js
+│   │   ├── merchant-orders.js
+│   │   ├── merchant-register.js
+│   │   ├── order-popup.js
+│   │   ├── output-time.js
+│   │   ├── rider.js
+│   │   ├── user-state.js
+│   │   ├── admin-login.js
+│   │   └── admin-dashboard.js
+│   └── images/
+│       ├── icons/
+│       ├── logo/
+│       ├── buttons/
+│       └── system/
+├── server/
+│   ├── app.js
+│   ├── db.js
+│   ├── middleware/
+│   │   ├── auth.js
+│   │   └── upload.js
+│   ├── routes/
+│   │   ├── customer.js
+│   │   ├── delivery.js
+│   │   ├── merchant.js  
+│   │   ├── order.js
+│   │   ├── product.js
+│   │   └── admin.js
+│   └── uploads/
+│       ├── avatars/
+│       └── products/
+|
+├── database-sql.txt 
+├── database-insert.txt
+└── seed-admin.js

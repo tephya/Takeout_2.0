@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开饭啦 | 准时准点,外卖首选</title>
+
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/home.css">
+    <link rel="stylesheet" href="./css/pages/auth-popup.css">
+    <link rel="stylesheet" href="./css/pages/merchant-page.css">
+
+</head>
+
+<body>
+
+    <!-- ── 顶栏 ── -->
+    <header class="home-topbar">
+        <div class="topbar-brand">
+            <img src="./images/logo/a_home_header_logo.svg" class="topbar-logo-left" alt="开饭啦">
+            <img src="./images/logo/logo.png" class="topbar-logo-right" alt="">
+        </div>
+        <div class="topbar-search">
+            <img src="./images/system/system.png" class="topbar-search-icon" alt="">
+            <input type="text" class="topbar-search-input" placeholder="搜索餐厅或菜品...">
+        </div>
+        <div class="topbar-right">
+            <div class="topbar-lang">
+                <img src="./images/system/system.png" alt="" class="topbar-lang-icon">
+                <span>中国|简</span>
+            </div>
+            <span id="unlogin" class="topbar-login-btn" onclick="showLoginPopup()">登录</span>
+            <img src="./images/icons/user-avator.webp" class="topbar-avatar" id="is-login"
+                onclick="window.location.href='account.html'" style="cursor:pointer;">
+            <input type="file" id="avatar-upload-input" accept="image/jpeg,image/png,image/webp" style="display:none;">
+        </div>
+    </header>
+
+    <!-- ── 主布局 ── -->
+    <div class="home-layout">
+
+        <!-- 侧边栏 -->
+        <aside class="home-sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">菜系分类</div>
+                <div class="category-item sidebar-nav-item">粤式料理</div>
+                <div class="category-item sidebar-nav-item">川湘料理</div>
+                <div class="category-item sidebar-nav-item">日韩料理</div>
+                <div class="category-item sidebar-nav-item">西式料理</div>
+                <div class="category-item sidebar-nav-item">快餐简食</div>
+                <div class="category-item sidebar-nav-item">小吃甜点</div>
+                <div class="category-item sidebar-nav-item">其他</div>
+            </div>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-section">
+                <div class="sidebar-heading">我的账户</div>
+                <a class="sidebar-nav-item" href="./myorder.html">我的订单</a>
+                <a class="sidebar-nav-item" href="./account.html">账户设置</a>
+            </div>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-section">
+                <a class="sidebar-nav-item" href="./merchant-entry.html">商家入驻</a>
+                <a class="sidebar-nav-item" href="./rider.html">成为骑手</a>
+            </div>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="home-main">
+            <div class="merchant-list" id="merchant-images">
+                
+                <!-- 商家卡片由 JS 渲染 -->
+            </div>
+            <div class="load-more-wrap">
+                <button class="load-more-btn">加载更多</button>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- ── 页脚 ── -->
+    <footer class="home-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="footer-brand-name">开饭啦</span>
+                <span class="footer-slogan">准时准点，外卖首选</span>
+            </div>
+            <div class="footer-social">
+                <span class="footer-label">关注我们</span>
+                <div class="footer-icons">
+                    <a href="#" class="footer-icon-item">
+                        <img src="./images/icons/bilibili.svg" alt="哔哩哔哩">
+                        <span>哔哩哔哩</span>
+                    </a>
+                    <a href="#" class="footer-icon-item">
+                        <img src="./images/icons/抖音.svg" alt="抖音">
+                        <span>抖音</span>
+                    </a>
+                    <a href="#" class="footer-icon-item">
+                        <img src="./images/icons/QQ.svg" alt="QQ">
+                        <span>QQ</span>
+                    </a>
+                    <a href="#" class="footer-icon-item">
+                        <img src="./images/icons/企业微信.svg" alt="企业微信">
+                        <span>企业微信</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <img src="./images/icons/联系方式.svg" alt="联系方式">
+                <span id="footer-contact-number">400-000-0000</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 开饭啦 版权所有</span>
+            <a href="./merchant-entry.html" class="footer-merchant-link">商家入驻</a>
+            <a href="./rider.html" class="footer-merchant-link">成为骑手</a>
+        </div>
+    </footer>
+
+
+    <script src="./js/common-utils.js"></script>
+    <script src="./js/user-state.js"></script>
+    <script src="./js/load-login-modal.js"></script>
+    <script src="./js/merchant-info.js"></script>
+    <script src="./js/map-cuisine.js"></script>
+    <script>
+        document.querySelector('.topbar-search-input').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && this.value.trim())
+                window.location.href = './search.html?q=' + encodeURIComponent(this.value.trim());
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,344 @@
+/* =====================
+   登录页
+   ===================== */
+.admin-login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.admin-login-wrap {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.admin-login-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.admin-logo {
+    font-size: 48px;
+    margin-bottom: 8px;
+}
+
+.admin-login-card h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.admin-subtitle {
+    color: #888;
+    font-size: 13px;
+    margin: 0 0 28px;
+}
+
+.admin-login-card .form-group {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+.admin-login-card label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.admin-login-card input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.admin-login-card input:focus {
+    border-color: #e74c3c;
+}
+
+.login-error {
+    background: #fff0f0;
+    color: #e74c3c;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.admin-login-btn {
+    width: 100%;
+    padding: 12px;
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.2s;
+}
+
+.admin-login-btn:hover {
+    background: #c0392b;
+}
+
+.admin-login-btn:disabled {
+    background: #e8a89d;
+    cursor: not-allowed;
+}
+
+/* =====================
+   Dashboard 顶栏
+   ===================== */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.admin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-header-logo {
+    font-size: 22px;
+}
+
+.admin-header-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.admin-logout-btn {
+    padding: 6px 16px;
+    border: 1.5px solid #e74c3c;
+    background: transparent;
+    color: #e74c3c;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-logout-btn:hover {
+    background: #e74c3c;
+    color: #fff;
+}
+
+/* =====================
+   Dashboard 主体
+   ===================== */
+.admin-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 20px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 20px;
+}
+
+/* 筛选 tab */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    padding: 7px 18px;
+    border: 1.5px solid #ddd;
+    background: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-tab:hover {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+.filter-tab.active {
+    background: #e74c3c;
+    border-color: #e74c3c;
+    color: #fff;
+}
+
+.badge {
+    background: #ff6b6b;
+    color: #fff;
+    border-radius: 10px;
+    padding: 0 6px;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    text-align: center;
+}
+
+.filter-tab.active .badge {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* 申请卡片 */
+.application-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.application-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 22px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    border: 1px solid #eee;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.status-tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-approved {
+    background: #d1e7dd;
+    color: #0a4f31;
+}
+
+.status-rejected {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    font-size: 13px;
+    color: #444;
+}
+
+@media (max-width: 520px) {
+    .card-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-row {
+    display: flex;
+    gap: 8px;
+}
+
+.card-label {
+    color: #999;
+    flex-shrink: 0;
+    min-width: 56px;
+}
+
+.reject-reason-display {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #fff5f5;
+    border-left: 3px solid #e74c3c;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #555;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-approve,
+.btn-reject {
+    padding: 8px 24px;
+    border: none;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.btn-approve {
+    background: #2ecc71;
+    color: #fff;
+}
+
+.btn-reject {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-approve:hover,
+.btn-reject:hover {
+    opacity: 0.85;
+}
+
+/* 状态提示 */
+.loading-tip,
+.empty-tip,
+.error-tip {
+    text-align: center;
+    padding: 48px 0;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.error-tip {
+    color: #e74c3c;
+}

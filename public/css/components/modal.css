@@ -1,0 +1,74 @@
+/* ================================================================
+   components/modal.css — Modal Component
+   所有弹窗遮罩和弹窗卡片的统一样式。
+   ================================================================ */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.modal-card {
+    background: var(--clr-surface);
+    border-radius: var(--radius-2xl);
+    padding: 28px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: var(--shadow-xl);
+}
+
+.modal-card h3 {
+    margin: 0 0 16px;
+    font-size: 17px;
+}
+
+.modal-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--clr-border-dark);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    resize: vertical;
+    outline: none;
+    font-family: inherit;
+    transition: border-color var(--transition-base);
+}
+
+.modal-card textarea:focus {
+    border-color: var(--clr-danger);
+}
+
+.modal-error {
+    color: var(--clr-danger);
+    font-size: var(--font-size-xs);
+    margin-top: 6px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.modal-btn {
+    padding: 9px 22px;
+    border-radius: var(--radius-md);
+    border: none;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity var(--transition-fast);
+}
+
+.modal-btn-cancel  { background: #f0f0f0; color: #555; }
+.modal-btn-confirm { background: var(--clr-danger); color: #fff; }
+
+.modal-btn:hover    { opacity: 0.85; }
+.modal-btn:disabled { opacity: 0.5; cursor: not-allowed; }

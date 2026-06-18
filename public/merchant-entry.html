@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家中心 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/merchant-entry.css">
+
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='./index.html'">
+                <img src="./images/arrow-left.svg" alt="返回">
+                <span>返回首页</span>
+            </button>
+        </div>
+        <div class="nav-center">
+            <h1>商家中心</h1>
+        </div>
+        <div class="nav-right"></div>
+    </div>
+
+    <div class="main-container">
+        <div class="status-section">
+            <div class="status-card">
+                <img src="./images/store-pending.svg" alt="商家中心" class="status-icon">
+                <h2>欢迎加入开饭啦</h2>
+                <p>开启您的外卖业务之旅</p>
+                <div class="action-buttons">
+                    <button class="manage-btn" onclick="window.location.href='merchant-login.html'">商家登录</button>
+                    <button class="view-orders-btn"
+                        onclick="window.location.href='merchant-register.html'">立即入驻</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/merchant-entry.js"></script>
+</body>
+
+</html>

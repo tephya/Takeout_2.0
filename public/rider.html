@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骑手端</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="css/pages/rider.css">
+</head>
+
+<body>
+    <div id="login-panel" class="panel">
+        <div class="login-card">
+            <div class="card-brand">
+                <div class="card-brand-icon">🛵</div>
+                <h1>骑手中心</h1>
+                <p>专属配送管理平台</p>
+            </div>
+            <div class="card-form">
+                <h2>骑手登录</h2>
+                <input id="rider-phone" type="tel" placeholder="输入手机号">
+                <input id="rider-password" type="password" placeholder="输入密码">
+                <button id="login-btn" class="primary-btn">登录</button>
+                <p id="login-error" class="error-text"></p>
+                <p class="switch-link">还没有账号？<a href="#" id="to-register-link">立即注册</a></p>
+                <p class="switch-link"><a href="#" id="to-reset-link">忘记密码？</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="register-panel" class="panel" style="display:none;">
+        <div class="login-card">
+            <div class="card-brand">
+                <div class="card-brand-icon">🛵</div>
+                <h1>骑手中心</h1>
+                <p>专属配送管理平台</p>
+            </div>
+            <div class="card-form">
+                <h2>成为骑手</h2>
+                <input id="reg-name" type="text" placeholder="真实姓名">
+                <input id="reg-phone" type="tel" placeholder="手机号">
+                <input id="reg-password" type="password" placeholder="设置密码">
+                <input id="reg-password2" type="password" placeholder="确认密码">
+                <button id="register-btn" class="primary-btn">注册</button>
+                <p id="register-error" class="error-text"></p>
+                <p class="switch-link">已有账号？<a href="#" id="to-login-link">返回登录</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="reset-panel" class="panel" style="display:none;">
+        <div class="login-card">
+            <div class="card-brand">
+                <div class="card-brand-icon">🛵</div>
+                <h1>骑手中心</h1>
+                <p>专属配送管理平台</p>
+            </div>
+            <div class="card-form">
+                <h2>重置密码</h2>
+                <input id="reset-phone" type="tel" placeholder="注册手机号">
+                <input id="reset-password" type="password" placeholder="新密码">
+                <input id="reset-password2" type="password" placeholder="确认新密码">
+                <button id="reset-btn" class="primary-btn">确认重置</button>
+                <p id="reset-error" class="error-text"></p>
+                <p class="switch-link"><a href="#" id="reset-to-login-link">返回登录</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-panel" class="panel" style="display:none;">
+        <div class="header">
+            <div class="header-left">
+                <span class="header-label">骑手工作台</span>
+                <span id="rider-name-display"></span>
+            </div>
+            <button id="logout-btn">退出</button>
+        </div>
+        
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="available">可抢订单</button>
+            <button class="tab-btn" data-tab="mine">我的配送</button>
+        </div>
+        
+        <div class="content-toolbar">
+            <button id="refresh-orders-btn" class="refresh-btn">刷新</button>
+        </div>
+
+        <div id="available-orders-content" class="tab-content"></div>
+        <div id="my-orders-content" class="tab-content" style="display:none;"></div>
+    </div>
+
+    <script src="js/rider.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+/* ================================================================
+   components/status.css — Status Badges & Pills
+   所有页面的状态标签统一在此定义，按命名空间分组。
+   ================================================================ */
+
+/* ── Generic status badge (merchant dashboard card) ── */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #fff;
+    background: var(--clr-success);
+}
+
+.status-badge.closed           { background: #ccc; }
+.status-badge.temporarily-closed {
+    background: var(--clr-warning-bg);
+    color: #e65100;
+}
+
+/* ── Admin review status tags ── */
+.status-tag {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: var(--radius-xl);
+}
+
+.status-tag.status-pending  { background: #fff3cd; color: #856404; }
+.status-tag.status-approved { background: var(--clr-success-bg); color: #0a4f31; }
+.status-tag.status-rejected { background: #f8d7da; color: #842029; }
+
+/* Badge counter (admin tab) */
+.badge {
+    display: inline-block;
+    background: #ff6b6b;
+    color: #fff;
+    border-radius: var(--radius-full);
+    padding: 0 6px;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* ── Order status pills (myorder page) ── */
+.status-pill {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.status-pill--pending    { color: #e67e22; background: #fde8d0; }
+.status-pill--processing { color: #f39c12; background: #fff3cd; }
+.status-pill--completed  { color: var(--clr-success-alt); background: var(--clr-success-bg); }
+.status-pill--cancelled  { color: var(--clr-danger); background: #f8d7da; }
+
+/* Legacy aliases (keeps existing HTML working) */
+.status-pending    { color: #e67e22 !important; background: #fde8d0;
+                     padding: 6px 12px; border-radius: var(--radius-full);
+                     display: inline-block; font-size: var(--font-size-sm);
+                     text-align: center; white-space: nowrap; margin-left: -10px; }
+.status-processing { color: #f39c12 !important; background: #fff3cd;
+                     padding: 6px 12px; border-radius: var(--radius-full);
+                     display: inline-block; font-size: var(--font-size-sm);
+                     text-align: center; white-space: nowrap; margin-left: -10px; }
+.status-completed  { color: var(--clr-success-alt) !important; background: var(--clr-success-bg);
+                     padding: 6px 12px; border-radius: var(--radius-full);
+                     display: inline-block; font-size: var(--font-size-sm);
+                     text-align: center; white-space: nowrap; margin-left: -10px; }
+.status-cancelled  { color: var(--clr-danger) !important; background: #f8d7da;
+                     padding: 6px 12px; border-radius: var(--radius-full);
+                     display: inline-block; font-size: var(--font-size-sm);
+                     text-align: center; white-space: nowrap; margin-left: -10px; }
+
+/* ── Rider delivery status pills ── */
+.status-transit {
+    color: var(--clr-warning);
+    background: var(--clr-warning-bg);
+    padding: 4px 10px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-sm);
+}
+
+.status-picked {
+    color: var(--clr-success-alt);
+    background: #d5f5e3;
+    padding: 4px 10px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-sm);
+}
+
+.status-ready {
+    color: var(--clr-warning);
+    background: #fef9ec;
+    border: 1px solid #f0c060;
+    padding: 4px 10px;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-sm);
+}

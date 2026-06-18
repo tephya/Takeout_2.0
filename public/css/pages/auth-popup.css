@@ -1,0 +1,345 @@
+/* ================================================================
+   pages/auth-popup.css — 用户登录 / 注册弹窗
+   已移除：reset、body（global.css）
+   .country-code 在此上下文通过 .phone-input-container 覆盖
+   ================================================================ */
+
+/* ── 头像 ── */
+.user-avator {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+img#is-login {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+}
+
+/* ── 登录弹窗 ── */
+.login-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+.login-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.login-popup-content {
+    background: var(--clr-surface);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.login-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 10;
+}
+
+.login-close-btn:hover { opacity: 0.7; }
+
+.login-header { text-align: center; margin-bottom: 25px; }
+
+.login-header h2 {
+    margin: 0;
+    color: var(--clr-text);
+    font-size: var(--font-size-3xl);
+    font-weight: 500;
+}
+
+.login-mode-switch {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.login-mode-option {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: var(--clr-text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-slow);
+    margin: 0 10px;
+}
+
+.login-mode-option.active,
+.login-mode-option:hover {
+    color: var(--clr-primary);
+    border-bottom-color: var(--clr-primary);
+}
+
+.input-group { margin-bottom: 20px; }
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--clr-text);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    height: 44px;
+    border: 1px solid var(--clr-border-dark);
+    border-radius: var(--radius-md);
+    padding: 0 16px;
+    font-size: var(--font-size-lg);
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color var(--transition-slow);
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 2px rgba(241, 207, 19, 0.2);
+}
+
+/* Phone input inside auth popup */
+.phone-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--clr-border-dark);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--transition-slow);
+}
+
+.phone-input-container:focus-within {
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 2px rgba(241, 207, 19, 0.2);
+}
+
+/* Override global .country-code for this specific context */
+.phone-input-container .country-code {
+    background: #f9f9f9;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-lg);
+    color: var(--clr-text-secondary);
+    border: none;
+    border-right: 1px solid var(--clr-border-dark);
+    border-radius: 0;
+    flex-shrink: 0;
+    padding: 0 8px;
+}
+
+.phone-input-container input {
+    border: none;
+    margin: 0;
+    flex: 1;
+    height: 42px;
+}
+
+.phone-input-container input:focus { box-shadow: none; }
+
+#register-popup .country-code { width: auto; font-size: var(--font-size-base); }
+
+.get-code-btn {
+    width: 100%;
+    height: 44px;
+    background: var(--clr-primary);
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    cursor: not-allowed;
+    transition: all var(--transition-slow);
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.get-code-btn.enabled { opacity: 1; cursor: pointer; }
+.get-code-btn.enabled:hover { background: var(--clr-primary-dark); transform: translateY(-1px); }
+
+.phone-input-container .get-code-btn {
+    width: auto;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0 14px;
+    font-size: var(--font-size-base);
+    height: 44px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.phone-input-container .get-code-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.verification-code-area { margin-top: 15px; }
+
+.verification-code-input {
+    width: 80%;
+    height: 44px;
+    border: 1px solid var(--clr-border-dark);
+    border-radius: var(--radius-md);
+    padding: 0 16px;
+    font-size: var(--font-size-lg);
+    margin-bottom: 10px;
+    outline: none;
+    transition: border-color var(--transition-slow);
+}
+
+.verification-code-input:focus {
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 2px rgba(241, 207, 19, 0.2);
+}
+
+.verification-code-display {
+    background: var(--clr-bg);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    font-size: 18px;
+    text-align: center;
+    color: var(--clr-text);
+    margin-bottom: 15px;
+}
+
+.login-submit-btn {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(90deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+    margin-top: 10px;
+}
+
+.login-submit-btn:hover {
+    background: linear-gradient(90deg, var(--clr-primary-dark) 0%, #d4ac0e 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--clr-primary-shadow);
+}
+
+.error-message {
+    color: #ff4444;
+    font-size: var(--font-size-base);
+    margin-bottom: 15px;
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: var(--clr-text-secondary);
+    font-size: var(--font-size-base);
+}
+
+.register-btn {
+    color: var(--clr-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 5px;
+}
+
+.register-btn:hover { color: var(--clr-primary-dark); }
+
+/* ── 注册弹窗 ── */
+.register-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1002;
+    width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.register-popup-content {
+    background: var(--clr-surface);
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.register-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 10;
+}
+
+.register-close-btn:hover { opacity: 0.7; }
+
+.register-header { text-align: center; margin-bottom: 25px; }
+
+.register-header h2 {
+    margin: 0;
+    color: var(--clr-text);
+    font-size: var(--font-size-3xl);
+    font-weight: 500;
+}
+
+.register-submit-btn {
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(90deg, var(--clr-primary) 0%, var(--clr-primary-dark) 100%);
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+    margin-top: 20px;
+}
+
+.register-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--clr-primary-shadow);
+}
+
+#register-phone {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 10px;
+    font-size: var(--font-size-md);
+    min-width: 0;
+}

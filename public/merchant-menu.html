@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜单管理 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/merchant-entry.css">
+    <link rel="stylesheet" href="./css/pages/merchant-menu.css">
+    <base target="_blank">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='merchant-dashboard.html'">
+                <img src="./images/arrow-left.svg" alt="返回">
+                <span>返回管理中心</span>
+            </button>
+        </div>
+        <div class="nav-center">
+            <h1 id="merchant-name-title">菜单管理</h1>
+        </div>
+        <div class="nav-right"></div>
+    </div>
+
+    <div class="menu-manager-wrap">
+        <aside class="menu-cat-panel">
+            <div class="menu-cat-list" id="menu-cat-list"></div>
+            <div class="menu-cat-add">
+                <input type="text" id="new-cat-input" placeholder="新增分类名称">
+                <button onclick="addCategory()">＋ 添加</button>
+            </div>
+        </aside>
+        <div class="menu-product-panel">
+            <div id="product-area-content"></div>
+        </div>
+    </div>
+
+    <script src="./js/merchant-menu.js"></script>
+</body>
+
+</html>

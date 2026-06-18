@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员登录 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/admin.css">
+</head>
+
+<body class="admin-login-page">
+    <div class="admin-login-wrap">
+        <div class="admin-login-card">
+            <div class="admin-logo">🍱</div>
+            <h1>管理后台</h1>
+            <p class="admin-subtitle">开饭啦运营管理系统</p>
+
+            <div class="form-group">
+                <label for="admin-username">用户名</label>
+                <input type="text" id="admin-username" placeholder="请输入用户名" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="admin-password">密码</label>
+                <input type="password" id="admin-password" placeholder="请输入密码" autocomplete="current-password">
+            </div>
+
+            <div id="login-error" class="login-error" style="display:none"></div>
+
+            <button id="login-btn" class="admin-login-btn">登 录</button>
+        </div>
+    </div>
+    <script src="./js/admin-login.js"></script>
+</body>
+
+</html>

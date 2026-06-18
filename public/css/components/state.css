@@ -1,0 +1,35 @@
+/* ================================================================
+   components/state.css — Loading / Empty / Error States
+   跨页面的加载、空状态、错误提示统一样式。
+   ================================================================ */
+
+/* ── Generic loading ── */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--clr-text-secondary);
+    font-size: var(--font-size-lg);
+}
+
+/* ── Generic empty ── */
+.empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--clr-text-muted);
+}
+
+/* ── Admin-style tips ── */
+.loading-tip,
+.empty-tip {
+    text-align: center;
+    padding: 48px 0;
+    color: var(--clr-text-light);
+    font-size: var(--font-size-base);
+}
+
+.error-tip {
+    text-align: center;
+    padding: 48px 0;
+    color: var(--clr-danger);
+    font-size: var(--font-size-base);
+}

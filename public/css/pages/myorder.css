@@ -1,0 +1,495 @@
+/* ================================================================
+   pages/myorder.css — 我的订单页（红白设计语言）
+   ================================================================ */
+
+/* ════════════════════════════════════════
+   顶栏（与 home.css 保持一致）
+   ════════════════════════════════════════ */
+.home-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 54px;
+    background: #C0392B;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.topbar-logo-left {
+    height: 30px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.topbar-logo-right {
+    height: 26px;
+    width: auto;
+}
+
+.topbar-page-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.3px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.topbar-refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 13px;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.topbar-refresh-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.topbar-refresh-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.topbar-refresh-btn.refreshing svg {
+    animation: spin 0.8s linear infinite;
+}
+
+.topbar-login-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.topbar-login-text:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.topbar-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.55);
+    object-fit: cover;
+    visibility: hidden;
+}
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+    max-width: 960px;
+    margin: 12px auto 12px;
+}
+
+.breadcrumb-home {
+    color: var(--clr-text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.breadcrumb-home:hover {
+    color: var(--clr-primary);
+    text-decoration: underline;
+}
+
+.breadcrumb-sep {
+    margin: 0 6px;
+    color: #ccc;
+}
+
+.breadcrumb-current {
+    color: var(--clr-text-secondary);
+}
+
+.breadcrumb-icon {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   页面主体
+   ════════════════════════════════════════ */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--clr-bg-alt);
+}
+
+.mo-main {
+    flex: 1;
+    padding: 16px 20px 48px;
+}
+
+.mo-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--clr-surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--clr-border);
+    overflow: hidden;
+}
+
+/* ════════════════════════════════════════
+   区块标题
+   ════════════════════════════════════════ */
+.mo-section-head {
+    display: flex;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--clr-border);
+    background: var(--clr-surface);
+}
+
+.mo-section-title {
+    font-size: var(--font-size-md);
+    font-weight: 700;
+    color: var(--clr-text);
+    padding-left: 10px;
+    border-left: 3px solid #C0392B;
+}
+
+/* ════════════════════════════════════════
+   订单列表 header 行
+   ════════════════════════════════════════ */
+.order-list {
+    width: 100%;
+}
+
+.order-header {
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr 1fr 1.5fr 2fr;
+    padding: 11px 24px;
+    background: var(--clr-bg-alt);
+    border-bottom: 1px solid var(--clr-border);
+}
+
+.order-header span {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--clr-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ════════════════════════════════════════
+   订单行
+   ════════════════════════════════════════ */
+.order-item {
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr 1fr 1.5fr 2.5fr;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--clr-border);
+    align-items: center;
+    gap: 8px;
+    transition: background var(--transition-fast);
+}
+
+.order-item:hover {
+    background: #fdfafa;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+/* ── 商家信息 ── */
+.merchant-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.merchant-image {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+    border: 1px solid var(--clr-border);
+    flex-shrink: 0;
+}
+
+.merchant-info span {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--clr-text);
+}
+
+/* ── 商品名 ── */
+.product-name {
+    font-size: var(--font-size-sm);
+    color: var(--clr-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 8px;
+}
+
+/* ── 数量 ── */
+.quantity {
+    font-size: var(--font-size-sm);
+    color: var(--clr-text-secondary);
+    text-align: center;
+}
+
+/* ── 金额 ── */
+.price {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: #C0392B !important;
+}
+
+/* ── 时间 ── */
+.order-time {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-xs);
+    color: var(--clr-text-muted);
+}
+
+/* ── 状态 ── */
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 16px;
+    flex-wrap: wrap;
+}
+
+/* ════════════════════════════════════════
+   状态徽章（由 JS 注入，此处定义 class）
+   ════════════════════════════════════════ */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.status-badge--pending {
+    background: #fff8e6;
+    color: #d97706;
+}
+
+.status-badge--accepted {
+    background: #e6f4ff;
+    color: var(--clr-info);
+}
+
+.status-badge--delivering {
+    background: #eef6ff;
+    color: #3b82f6;
+}
+
+.status-badge--done {
+    background: var(--clr-success-bg);
+    color: var(--clr-success);
+}
+
+.status-badge--cancelled {
+    background: var(--clr-bg-alt);
+    color: var(--clr-text-muted);
+}
+
+/* ════════════════════════════════════════
+   操作按钮
+   ════════════════════════════════════════ */
+.cancel-btn {
+    background: none;
+    color: var(--clr-danger);
+    border: 1.5px solid var(--clr-danger);
+    border-radius: var(--radius-full);
+    padding: 4px 14px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.cancel-btn:hover {
+    background: var(--clr-danger);
+    color: #fff;
+}
+
+/* ── 评论按钮 ── */
+.comment-btns {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 6px;
+}
+
+.comment-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+    opacity: 0.75;
+}
+
+.comment-icon:hover {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+.comment-done {
+    font-size: var(--font-size-xs);
+    color: var(--clr-success-alt);
+    margin-left: 6px;
+}
+
+.comment-done--err {
+    color: var(--clr-danger);
+}
+
+/* ════════════════════════════════════════
+   空状态 / 加载
+   ════════════════════════════════════════ */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--clr-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.empty-order {
+    text-align: center;
+    padding: 64px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.empty-illustration {
+    width: 100px;
+    height: 100px;
+    opacity: 0.45;
+    margin-bottom: 4px;
+}
+
+.empty-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--clr-text);
+}
+
+.empty-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--clr-text-muted);
+}
+
+.empty-action-btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 10px 36px;
+    background: #C0392B;
+    color: #fff;
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    transition: background var(--transition-base), box-shadow var(--transition-base);
+}
+
+.empty-action-btn:hover {
+    background: #A93226;
+    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.3);
+}
+
+/* ════════════════════════════════════════
+   取消弹窗
+   ════════════════════════════════════════ */
+.cancel-reason-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--font-size-base);
+    color: var(--clr-text);
+    cursor: pointer;
+}
+
+.cancel-reason-label input[type="radio"] {
+    accent-color: #C0392B;
+    width: 15px;
+    height: 15px;
+}
+
+/* ════════════════════════════════════════
+   动画
+   ════════════════════════════════════════ */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ════════════════════════════════════════
+   响应式
+   ════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .mo-main {
+        padding: 16px 12px 40px;
+    }
+
+    .topbar-page-title {
+        display: none;
+    }
+
+    .order-header {
+        display: none;
+    }
+
+    .order-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px;
+    }
+
+    .status-wrapper {
+        padding-right: 0;
+    }
+}

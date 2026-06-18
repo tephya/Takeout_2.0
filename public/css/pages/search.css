@@ -1,0 +1,202 @@
+.search-page {
+    max-width: 1100px;
+    margin: 32px auto;
+    padding: 0 24px 60px;
+}
+
+.search-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    font-size: 14px;
+}
+
+.search-back {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.search-back:hover {
+    text-decoration: underline;
+}
+
+.search-hint {
+    color: #888;
+}
+
+.search-hint span {
+    color: #222;
+    font-weight: 600;
+}
+
+.search-state {
+    text-align: center;
+    padding: 80px 0;
+    color: #aaa;
+    font-size: 15px;
+}
+
+.search-section {
+    margin-bottom: 40px;
+}
+
+.search-section-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary, #e53935);
+    color: #222;
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.search-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    cursor: pointer;
+    transition: transform .18s, box-shadow .18s;
+}
+
+.search-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.11);
+}
+
+.search-card-img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+}
+
+.search-card-body {
+    padding: 12px 16px 16px;
+}
+
+.search-card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-card-sub {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-card-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary, #e53935);
+}
+
+.search-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.search-badge.open {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.search-badge.closed {
+    background: #f5f5f5;
+    color: #999;
+}
+
+/* ── 商家卡片封面图 ── */
+.search-card-cover {
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(135deg, #f5c6c6 0%, #f0a0a0 100%);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.search-card-cover.no-cover {
+    background: linear-gradient(135deg, #fce4e4 0%, #f8bbbb 100%);
+}
+
+.search-card-cover .search-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+/* 封面底部渐变蒙层 + 商家名 */
+.search-card-cover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 14px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.62) 0%, transparent 100%);
+    z-index: 1;
+}
+
+.search-card-cover-overlay .search-card-name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+
+/* ── card body ── */
+.search-card-body {
+    padding: 10px 14px 14px;
+}
+
+.search-card-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+/* ── 菜系标签 ── */
+.cuisine-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    background: #fff0f0;
+    color: var(--primary, #e53935);
+    border: 1px solid #fdd;
+}
+
+/* ── 营业时间 ── */
+.search-card-hours {
+    font-size: 12px;
+    color: #aaa;
+}

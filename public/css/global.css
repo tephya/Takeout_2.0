@@ -1,0 +1,21 @@
+/* ================================================================
+   global.css — Global Entry Point
+   每个 HTML 页面只需引入这一个文件 + 各自的 pages/*.css。
+
+   加载顺序：
+     1. base/reset        → 清除浏览器默认样式
+     2. base/variables    → 设计 token（颜色、字体、圆角等）
+     3. base/typography   → body 字体
+     4. components/*      → 跨页面复用的 UI 组件
+   ================================================================ */
+
+@import './base/reset.css';
+@import './base/variables.css';
+@import './base/typography.css';
+
+@import './components/form.css';
+@import './components/modal.css';
+@import './components/status.css';
+@import './components/toggle.css';
+@import './components/state.css';
+@import './components/topbar.css';

@@ -1,0 +1,5 @@
+﻿node_modules/
+server/uploads/avatars/*
+server/uploads/products/*
+!server/uploads/avatars/.gitkeep
+!server/uploads/products/.gitkeep

@@ -1,0 +1,66 @@
+/* ================================================================
+   base/variables.css — Design Tokens
+   所有颜色、字体、间距、圆角、阴影的唯一来源。
+   修改视觉风格只需改这里。
+   ================================================================ */
+
+:root {
+    /* ── Brand ── */
+    --clr-primary:        #C0392B;
+    --clr-primary-dark:   #A93226;
+    --clr-primary-shadow: rgba(192, 57, 43, 0.25);
+    --clr-primary-bg:     #fff0ee;
+
+    /* ── Semantic actions ── */
+    --clr-danger:         #e74c3c;
+    --clr-danger-dark:    #c0392b;
+    --clr-danger-bg:      #fff0f0;
+    --clr-success:        #28a745;
+    --clr-success-alt:    #2ecc71;
+    --clr-success-bg:     #d4edda;
+    --clr-warning:        #e67e22;
+    --clr-warning-bg:     #fde8d0;
+    --clr-info:           #1890ff;
+
+    /* ── Neutrals ── */
+    --clr-bg:             #f8f9fa;
+    --clr-bg-alt:         #f4f6f8;
+    --clr-surface:        #ffffff;
+    --clr-border:         #e9ecef;
+    --clr-border-dark:    #dddddd;
+    --clr-text:           #333333;
+    --clr-text-secondary: #666666;
+    --clr-text-muted:     #999999;
+    --clr-text-light:     #aaaaaa;
+
+    /* ── Typography ── */
+    --font-sans: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei',
+                 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-size-xs:   12px;
+    --font-size-sm:   13px;
+    --font-size-base: 14px;
+    --font-size-md:   15px;
+    --font-size-lg:   16px;
+    --font-size-xl:   18px;
+    --font-size-2xl:  20px;
+    --font-size-3xl:  24px;
+
+    /* ── Border radius ── */
+    --radius-sm:   4px;
+    --radius-md:   6px;
+    --radius-lg:   8px;
+    --radius-xl:   12px;
+    --radius-2xl:  16px;
+    --radius-full: 9999px;
+
+    /* ── Shadow ── */
+    --shadow-sm: 0 1px 6px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.10);
+    --shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.10);
+    --shadow-xl: 0 8px 40px rgba(0, 0, 0, 0.15);
+
+    /* ── Transition ── */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.2s ease;
+    --transition-slow: 0.3s ease;
+}

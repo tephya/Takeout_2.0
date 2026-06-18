@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家管理中心 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/merchant-entry.css">
+    <style>
+        .menu-section {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .menu-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .menu-card h2 {
+            margin: 0 0 16px 0;
+            font-size: 18px;
+        }
+
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .product-table th {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 2px solid #f0f0f0;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .product-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f5f5f5;
+            vertical-align: middle;
+        }
+
+        .product-table img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            background: #f5f5f5;
+        }
+
+        .product-table .no-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .btn-edit {
+            padding: 4px 12px;
+            border: 1px solid #1890ff;
+            color: #1890ff;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 6px;
+        }
+
+        .btn-delete {
+            padding: 4px 12px;
+            border: 1px solid #ff4d4f;
+            color: #ff4d4f;
+            background: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+            margin: 20px 0;
+        }
+
+        .form-area h3 {
+            margin: 0 0 14px 0;
+            font-size: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-width: 500px;
+        }
+
+        .form-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-grid input,
+        .form-grid textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-grid textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        #product-empty {
+            color: #999;
+            padding: 16px 0;
+            font-size: 14px;
+        }
+
+        .status-badge.temporarily-closed {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #ccc;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            top: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: #e74c3c;
+        }
+
+        .toggle-switch input:checked+.toggle-slider::before {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='./index.html'">
+                <img src="./images/arrow-left.svg" alt="首页">
+                <span>返回首页</span>
+            </button>
+        </div>
+        <div class="nav-center">
+            <h1>商家管理中心</h1>
+        </div>
+        <div class="nav-right"></div>
+    </div>
+
+    <!-- 商家信息卡片 -->
+    <div class="main-container">
+        <div class="status-section">
+            <div class="already-registered">
+                <div class="status-card">
+                    <img src="./images/store-verified.svg" alt="已入驻" class="status-icon">
+                    <h2 id="welcome-title">欢迎回来</h2>
+                    <div class="merchant-info"
+                        style="display:flex; gap:0; align-items:stretch; padding:0; overflow:hidden;">
+                        <!-- 左：商家基本信息 -->
+                        <div style="flex:1; padding:1.2rem 1.5rem; display:flex; flex-direction:column; gap:10px; align-items:flex-start;">
+                            <div style="font-size:15px;"><span style="font-weight:600; color:#555; margin-right:8px;">商家ID：</span><span
+                                    id="merchant-id-display"></span></div>
+                            <div style="font-size:15px;"><span style="font-weight:600; color:#555; margin-right:8px;">商家名称：</span><span
+                                    id="merchant-name-display"></span></div>
+                            <div style="font-size:15px; display:flex; align-items:center;"><span
+                                    style="font-weight:600; color:#555; margin-right:8px;">状态：</span><span class="status-badge active"
+                                    id="business-status">营业中</span></div>
+                            <div style="font-size:15px;"><span style="font-weight:600; color:#555; margin-right:8px;">营业时间：</span><span
+                                    id="business-hours-display">—</span></div>
+                        </div>
+                        <!-- 分隔线 -->
+                        <div style="width:1px; background:#e8e8e8; flex-shrink:0;"></div>
+                        <!-- 右：统计数据 -->
+                        <div id="stats-grid"
+                            style="flex:1; padding:1.2rem 1.5rem; display:flex; flex-direction:column; gap:10px; justify-content:center;">
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">今日订单</span>
+                                <span style="font-size:14px; font-weight:700; color:#e74c3c;"
+                                    id="stat-today-orders">—</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">累计订单</span>
+                                <span style="font-size:14px; font-weight:700; color:#e74c3c;"
+                                    id="stat-total-orders">—</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">今日收入</span>
+                                <span style="font-size:14px; font-weight:700; color:#e74c3c;"
+                                    id="stat-today-revenue">—</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">累计收入</span>
+                                <span style="font-size:14px; font-weight:700; color:#e74c3c;"
+                                    id="stat-total-revenue">—</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">待处理订单</span>
+                                <span style="font-size:14px; font-weight:700; color:#f39c12;" id="stat-pending">—</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:#888;">好评率</span>
+                                <span style="font-size:14px; font-weight:700; color:#27ae60;" id="stat-good-rate">—</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="view-orders-btn" id="btn-view-orders" onclick="window.location.href='merchant-orders.html'"
+                            style="position:relative;">查看订单<span id="pending-badge"
+                                style="display:none;position:absolute;top:-6px;right:-6px;background:#e74c3c;color:#fff;font-size:11px;min-width:18px;height:18px;line-height:18px;text-align:center;border-radius:9px;padding:0 5px;"></span></button>
+                        <button class="view-orders-btn" onclick="window.location.href='merchant-menu.html'">菜单管理</button>
+                        <button class="view-orders-btn" onclick="openSettingsModal()">店铺设置</button>
+                        <button class="view-orders-btn" style="background:#f5f5f5; color:#666;"
+                            onclick="merchantLogout()">退出登录</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+        <!-- 菜单管理 -->
+    <div class="menu-section">
+        <div class="menu-card">
+            <h2>菜单管理</h2>
+
+            <!-- 商品列表 -->
+            <div id="product-list-area">
+                <p id="product-empty" style="display:none;">暂无商品</p>
+                <table class="product-table" id="product-table" style="display:none;">
+                    <thead>
+                        <tr>
+                            <th>图片</th>
+                            <th>名称</th>
+                            <th>价格</th>
+                            <th>描述</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="product-tbody"></tbody>
+                </table>
+            </div>
+
+            <hr class="divider">
+
+            <!-- 编辑表单（默认隐藏） -->
+            <div class="form-area" id="edit-form-area" style="display:none;">
+                <h3>编辑商品</h3>
+                <input type="hidden" id="edit-product-id">
+                <div class="form-grid">
+                    <input type="text" id="edit-product-name" placeholder="商品名称（必填）">
+                    <input type="number" id="edit-product-price" placeholder="价格（必填）" step="0.01" min="0">
+                    <select id="edit-product-category" class="full-width"
+                        style="padding:8px 10px; border:1px solid #d9d9d9; border-radius:6px; font-size:14px;">
+                        <option value="">请选择分类</option>
+                    </select>
+                    <textarea id="edit-product-desc" placeholder="描述（选填）" class="full-width"></textarea>
+                    <div class="full-width">
+                        <label style="font-size:13px; color:#666;">更换图片（选填）</label>
+                        <input type="file" id="edit-product-image" accept="image/*" style="margin-top:4px;">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top:10px;">
+                    <button class="view-orders-btn" onclick="submitEditProduct()">保存</button>
+                    <button class="btn-edit" onclick="cancelEdit()">取消</button>
+                </div>
+                <hr class="divider">
+            </div>
+
+            <!-- 添加商品表单 -->
+            <div class="form-area">
+                <h3>添加商品</h3>
+                <div class="form-grid">
+                    <input type="text" id="new-product-name" placeholder="商品名称（必填）">
+                    <input type="number" id="new-product-price" placeholder="价格（必填）" step="0.01" min="0">
+                    <select id="new-product-category" class="full-width"
+                        style="padding:8px 10px; border:1px solid #d9d9d9; border-radius:6px; font-size:14px;">
+                        <option value="">请选择分类（必填）</option>
+                    </select>
+                    <div class="full-width" style="font-size:12px; color:#999; margin-top:-6px;">
+                        没有分类？请先前往 <a href="./merchant-menu.html" style="color:#e74c3c;">菜单分类管理</a> 新建分类
+                    </div>
+                    <textarea id="new-product-desc" placeholder="描述（选填）" class="full-width"></textarea>
+                    <div class="full-width">
+                        <label style="font-size:13px; color:#666;">商品图片（选填）</label>
+                        <input type="file" id="new-product-image" accept="image/*" style="margin-top:4px;">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top:10px;">
+                    <button class="view-orders-btn" onclick="addProduct()">添加商品</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="settings-modal-overlay"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+        <div
+            style="background:#fff; border-radius:12px; padding:32px; width:360px; box-shadow:0 4px 24px rgba(0,0,0,0.15);">
+            <h3 style="margin:0 0 20px; font-size:17px;">店铺设置</h3>
+            <div style="margin-bottom:20px;">
+                <label style="font-size:13px; color:#666; display:block; margin-bottom:8px;">临时关店</label>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle-temporarily-closed"
+                            onchange="setTemporaryClosure(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="closure-status-label" style="font-size:13px; color:#52c41a;">正常营业</span>
+                </div>
+                <p style="font-size:12px; color:#aaa; margin:6px 0 0;">开启后店铺将暂停接单，不受营业时间限制</p>
+            </div>
+            <div style="margin-bottom:16px;">
+                <label style="font-size:13px; color:#666; display:block; margin-bottom:8px;">菜系类型</label>
+                <select id="input-cuisine-type"
+                    style="width:100%; padding:8px; border:1px solid #d9d9d9; border-radius:6px; font-size:14px;">
+                    <option value="">请选择菜系</option>
+                    <option value="粤式料理">粤式料理</option>
+                    <option value="川湘料理">川湘料理</option>
+                    <option value="日韩料理">日韩料理</option>
+                    <option value="西式料理">西式料理</option>
+                    <option value="快餐简食">快餐简食</option>
+                    <option value="小吃甜点">小吃甜点</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div style="margin-bottom:16px;">
+                <label style="font-size:13px; color:#666; display:block; margin-bottom:6px;">营业时间</label>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="time" id="input-opening-time"
+                        style="flex:1; padding:8px; border:1px solid #d9d9d9; border-radius:6px; font-size:14px;">
+                    <span style="color:#666;">至</span>
+                    <input type="time" id="input-closing-time"
+                        style="flex:1; padding:8px; border:1px solid #d9d9d9; border-radius:6px; font-size:14px;">
+                </div>
+            </div>
+            <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:24px;">
+                <button class="btn-edit" onclick="closeSettingsModal()">取消</button>
+                <button class="view-orders-btn" style="padding:8px 20px;" onclick="saveBusinessHours()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/merchant-dashboard.js"></script>
+</body>
+
+</html>

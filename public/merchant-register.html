@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商家入驻 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/merchant-entry.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="nav-left">
+            <button class="back-btn" onclick="window.location.href='./merchant-entry.html'">
+                <img src="./images/arrow-left.svg" alt="返回">
+                <span>返回</span>
+            </button>
+        </div>
+        <div class="nav-center">
+            <h1>商家入驻</h1>
+        </div>
+        <div class="nav-right"></div>
+    </div>
+
+    <div class="main-container">
+        <div class="form-container">
+            <div class="form-header">
+                <h2>商家信息登记</h2>
+                <p>请填写真实有效的商家信息，提交后将由平台审核（1-3个工作日）</p>
+            </div>
+            <form id="merchant-registration-form">
+                <div class="form-group">
+                    <label>商家名称 <span class="required">*</span></label>
+                    <input type="text" id="merchant-name" required maxlength="50" placeholder="请输入商家名称">
+                    <div class="field-hint">将显示在用户端，请使用正式店铺名称</div>
+                </div>
+                <div class="form-group">
+                    <label>联系电话 <span class="required">*</span></label>
+                    <div class="phone-input-group">
+                        <span class="country-code">+86</span>
+                        <input type="tel" id="contact-phone" required placeholder="请输入联系电话" pattern="[0-9]{8,15}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>营业地址 <span class="required">*</span></label>
+                    <textarea id="business-address" required maxlength="200" placeholder="请输入详细营业地址"
+                        rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>营业时间 <span class="required">*</span></label>
+                    <div class="time-range-group">
+                        <div class="time-input">
+                            <label class="time-label">开始时间</label>
+                            <input type="time" id="start-time" required>
+                        </div>
+                        <div class="time-separator">至</div>
+                        <div class="time-input">
+                            <label class="time-label">结束时间</label>
+                            <input type="time" id="end-time" required>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+                        <input type="checkbox" id="is-24h" style="width:18px; height:18px; cursor:pointer;">
+                        <label for="is-24h" class="time-label">24小时营业</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>菜系类型 <span class="required">*</span></label>
+                    <select id="cuisine-type" required>
+                        <option value="">请选择菜系</option>
+                        <option value="粤式料理">粤式料理</option>
+                        <option value="川湘料理">川湘料理</option>
+                        <option value="日韩料理">日韩料理</option>
+                        <option value="西式料理">西式料理</option>
+                        <option value="快餐简食">快餐简食</option>
+                        <option value="小吃甜点">小吃甜点</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>设置密码 <span class="required">*</span></label>
+                    <input type="password" id="merchant-password" required maxlength="20" placeholder="请输入密码"
+                        autocomplete="new-password">
+                </div>
+                <div class="terms-section">
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="agree-terms" required>
+                        <label for="agree-terms">
+                            我已阅读并同意
+                            <a href="merchant-terms.html" target="_blank">《商家入驻服务协议》</a>
+                            和
+                            <a href="privacy-policy.html" target="_blank">《隐私政策》</a>
+                        </label>
+                    </div>
+                </div>
+                <div class="submit-section">
+                    <button type="button" class="cancel-btn"
+                        onclick="window.location.href='merchant-entry.html'">取消</button>
+                    <button type="submit" class="submit-btn" id="submit-registration">提交申请</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/merchant-register.js"></script>
+</body>
+
+</html>

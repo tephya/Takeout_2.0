@@ -2,12 +2,20 @@
 drop table if exists CustomerInfo;
 CREATE TABLE CustomerInfo (
     customer_id CHAR(10) PRIMARY KEY,
-    `password` CHAR(20) NOT NULL,
-    customer_name VARCHAR(50) NOT NULL,
-    customer_sex CHAR(10) CHECK(customer_sex IN('男','女')),
+    customer_username VARCHAR(45) NOT NULL UNIQUE,
+    `password` VARCHAR(60) NOT NULL,
     customer_phone VARCHAR(20) NOT NULL,
-    customer_address VARCHAR(200) NOT NULL,
     avatar VARCHAR(255) DEFAULT NULL
+);
+
+-- 顾客地址表
+CREATE TABLE CustomerAddress (
+    address_id CHAR(10) PRIMARY KEY,
+    customer_id CHAR(10) NOT NULL,
+    address_label VARCHAR(50) DEFAULT NULL,
+    address_detail VARCHAR(200) NOT NULL,
+    is_default TINYINT(1) DEFAULT 0,
+    FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id)
 );
 
 -- 商家信息表
@@ -19,9 +27,20 @@ CREATE TABLE MerchantInfo (
     merchant_address VARCHAR(200) NOT NULL,
     opening_time TIME NOT NULL,
     closing_time TIME NOT NULL,
-    password CHAR(20) NOT NULL DEFAULT '',
-    customer_id VARCHAR(20) NOT NULL,
-    CONSTRAINT fk_merchant_customer FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id)
+    password VARCHAR(60) NOT NULL,
+    is_24h TINYINT(1) NOT NULL DEFAULT 0,
+    is_temporarily_closed TINYINT(1) NOT NULL DEFAULT 0,
+    cuisine_type VARCHAR(20) DEFAULT NULL,
+    cover_product_id VARCHAR(20) NULL
+);
+
+-- 商家餐品分类表
+CREATE TABLE MerchantCategory (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    merchant_id VARCHAR(20) NOT NULL,
+    category_name VARCHAR(50) NOT NULL,
+    sort_order INT DEFAULT 0,
+    FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id) ON DELETE CASCADE
 );
 
 -- 商品信息表
@@ -30,11 +49,16 @@ CREATE TABLE ProductInfo (
     product_id CHAR(10) PRIMARY KEY,
     merchant_id CHAR(10) NOT NULL,
     product_name VARCHAR(100) NOT NULL,
-    product_price DECIMAL(10, 2) NOT NULL,
+    product_price DECIMAL(10, 2) NOT NULL CHECK (product_price > 0),
     product_description TEXT,
     click_count INT DEFAULT 0,
     good_review_count INT NOT NULL DEFAULT 0 COMMENT '好评数',
     bad_review_count INT NOT NULL DEFAULT 0 COMMENT '差评数',
+    category VARCHAR(50) DEFAULT NULL,
+    product_image_url VARCHAR(255) DEFAULT NULL,
+    focal_x DECIMAL(5,2) DEFAULT 50.00,
+    focal_y DECIMAL(5,2) DEFAULT 50.00,
+    zoom_level DECIMAL(5,2) DEFAULT 100.00,
     FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id)
 );
 
@@ -51,12 +75,13 @@ CREATE TABLE SalesInfo (
 );
 
 -- 骑手信息表
-drop table if exists RiderInfo;
 CREATE TABLE RiderInfo (
     rider_id CHAR(10) PRIMARY KEY,
     rider_name VARCHAR(50) NOT NULL,
     rider_phone VARCHAR(20) NOT NULL,
-    score DECIMAL(2,1) NOT NULL
+    score DECIMAL(2,1) NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    rating_count INT NOT NULL DEFAULT 0
 );
 
 -- 客户订单表
@@ -64,12 +89,16 @@ drop table if exists CustomerOrderInfo;
 CREATE TABLE CustomerOrderInfo (
     order_id CHAR(10) PRIMARY KEY,
     customer_id CHAR(10) NOT NULL,
+    customer_address VARCHAR(255) DEFAULT NULL,
     merchant_id CHAR(10) NOT NULL,
     product_id CHAR(10) NOT NULL,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     order_quantity INT NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
-    order_status ENUM('Pending', 'Processing', 'Completed', 'Cancelled') DEFAULT 'Pending',
+    order_status ENUM('Pending', 'Ready', 'Processing', 'Completed', 'Cancelled') DEFAULT 'Pending',
+    address_id CHAR(10) DEFAULT NULL,
+    order_group_id VARCHAR(20) DEFAULT NULL,
+    cancel_reason VARCHAR(255) DEFAULT NULL,
     FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id),
     FOREIGN KEY (merchant_id) REFERENCES MerchantInfo(merchant_id),
     FOREIGN KEY (product_id) REFERENCES ProductInfo(product_id)
@@ -83,7 +112,7 @@ CREATE TABLE RiderDeliveryInfo (
     rider_id CHAR(10) NOT NULL,
     pickup_time TIMESTAMP,
     delivery_time TIMESTAMP,
-    delivery_status ENUM('Picked Up', 'In Transit', 'Delivered') DEFAULT 'Picked Up',
+    delivery_status ENUM('Picked Up', 'In Transit', 'Delivered', 'Cancelled') DEFAULT 'Picked Up',
     FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id),
     FOREIGN KEY (rider_id) REFERENCES RiderInfo(rider_id)
 );
@@ -105,8 +134,9 @@ CREATE TABLE ProductReview (
     customer_id CHAR(10) NOT NULL,
     product_id CHAR(10) NOT NULL,
     review_text TEXT,
-    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    review_type ENUM('good', 'bad') NOT NULL,
     review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_order_review (order_id),
     FOREIGN KEY (order_id) REFERENCES CustomerOrderInfo(order_id),
     FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id),
     FOREIGN KEY (product_id) REFERENCES ProductInfo(product_id)
@@ -125,24 +155,52 @@ CREATE TABLE AfterSales (
     FOREIGN KEY (customer_id) REFERENCES CustomerInfo(customer_id)
 );
 
+-- 商家入驻申请表
+CREATE TABLE MerchantApplication (
+    application_id CHAR(10) PRIMARY KEY,
+    merchant_name VARCHAR(100) NOT NULL,
+    merchant_phone VARCHAR(20) NOT NULL,
+    merchant_address VARCHAR(200) NOT NULL,
+    opening_time TIME NOT NULL,
+    closing_time TIME NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    is_24h TINYINT(1) NOT NULL DEFAULT 0,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    reject_reason VARCHAR(500) DEFAULT NULL,
+    apply_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    cuisine_type VARCHAR(20) NULL
+);
+
+-- 管理员表
+CREATE TABLE AdminInfo (
+    admin_id CHAR(10) PRIMARY KEY,
+    admin_username VARCHAR(45) NOT NULL UNIQUE,
+    password VARCHAR(60) NOT NULL
+);
+
 -- 视图：客户订单
 CREATE OR REPLACE VIEW CustomerOrder AS
 SELECT 
     o.order_id,
     o.customer_id,
-    c.customer_name,
+    c.customer_username,
     c.customer_phone,
-    o.merchant_id,         
+    o.merchant_id,
+    o.product_id,
     m.merchant_name,
     p.product_name,
+    p.product_image_url,
     o.order_quantity,
     o.total_price,
     o.order_status,
-    o.order_date
+    o.order_date,
+    r.review_type,
+    r.review_text
 FROM CustomerOrderInfo o
 LEFT JOIN CustomerInfo c ON o.customer_id = c.customer_id
 LEFT JOIN MerchantInfo m ON o.merchant_id = m.merchant_id
-LEFT JOIN ProductInfo p ON o.product_id = p.product_id;
+LEFT JOIN ProductInfo p ON o.product_id = p.product_id
+LEFT JOIN ProductReview r ON o.order_id = r.order_id;
 
 -- 视图：商家销售统计
 CREATE VIEW MerchantSales AS
@@ -184,9 +242,8 @@ SELECT
     p.product_id,
     p.product_name,
     COUNT(r.review_id) AS review_count,
-    ROUND(AVG(r.rating), 1) AS average_rating
-FROM ProductReview r,
-     ProductInfo p
+    ROUND(SUM(r.review_type = 'good') / COUNT(r.review_id) * 100, 1) AS good_rate
+FROM ProductReview r, ProductInfo p
 WHERE r.product_id = p.product_id
 GROUP BY p.product_id;
 
@@ -207,7 +264,6 @@ GROUP BY sales_day, m.merchant_id;
 
 -- 索引
 CREATE INDEX idx_customer_phone ON CustomerInfo(customer_phone);
-CREATE INDEX idx_customer_address ON CustomerInfo(customer_address(50));
 CREATE INDEX idx_product_name ON ProductInfo(product_name);
 CREATE FULLTEXT INDEX ft_product_desc ON ProductInfo(product_description);
 CREATE INDEX idx_order_date_range ON CustomerOrderInfo(order_date);
@@ -286,22 +342,18 @@ FOR EACH ROW
 BEGIN
     DECLARE selected_rider CHAR(10);
     DECLARE rider_count INT;
+    DECLARE delivery_count INT;
     IF NEW.order_status = 'Processing' AND OLD.order_status != 'Processing' THEN
-        SELECT COUNT(*) INTO rider_count FROM RiderInfo;
-        IF rider_count = 0 THEN
-            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '无可用骑手';
+        SELECT COUNT(*) INTO delivery_count FROM RiderDeliveryInfo WHERE order_id = NEW.order_id;
+        IF delivery_count = 0 THEN
+            SELECT COUNT(*) INTO rider_count FROM RiderInfo;
+            IF rider_count = 0 THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '无可用骑手';
+            END IF;
+            SELECT rider_id INTO selected_rider FROM RiderInfo ORDER BY RAND() LIMIT 1;
+            INSERT INTO RiderDeliveryInfo (delivery_id, order_id, rider_id, delivery_status)
+            VALUES (CONCAT('D', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')), NEW.order_id, selected_rider, 'In Transit');
         END IF;
-        SELECT rider_id INTO selected_rider
-        FROM RiderInfo
-        ORDER BY RAND()
-        LIMIT 1;
-        INSERT INTO RiderDeliveryInfo (delivery_id, order_id, rider_id, delivery_status)
-        VALUES (
-            CONCAT('D', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')),
-            NEW.order_id,
-            selected_rider,
-            'In Transit'
-        );
     END IF;
 END$$
 DELIMITER ;
@@ -313,10 +365,12 @@ AFTER UPDATE ON CustomerOrderInfo
 FOR EACH ROW
 BEGIN
     IF NEW.order_status = 'Cancelled' AND OLD.order_status != 'Cancelled' THEN
+        -- 原有逻辑：清理销售记录
         DELETE FROM SalesInfo
         WHERE product_id = NEW.product_id
           AND merchant_id = NEW.merchant_id
           AND sales_quantity = NEW.order_quantity;
+        -- 原有逻辑：写入售后记录
         INSERT INTO AfterSales (after_sales_id, order_id, customer_id, issue_description)
         VALUES (
             CONCAT('AS', DATE_FORMAT(NOW(), '%y%m%d%H%i%s')),
@@ -324,6 +378,11 @@ BEGIN
             NEW.customer_id,
             '订单已取消'
         );
+        -- 新增：同步配送记录状态
+        UPDATE RiderDeliveryInfo 
+        SET delivery_status = 'Cancelled'
+        WHERE order_id = NEW.order_id
+          AND delivery_status != 'Delivered';
     END IF;
 END$$
 DELIMITER ;

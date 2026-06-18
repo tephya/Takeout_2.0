@@ -1,0 +1,91 @@
+/* ================================================================
+   components/toggle.css — Toggle Switch
+   统一两处 toggle 实现：merchant-dashboard（.toggle-slider）
+   和 order-popup（.toggle-label）。
+   ================================================================ */
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ── Variant A: .toggle-slider (merchant-dashboard 临时关店) ── */
+.toggle-switch:has(.toggle-slider) {
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    top: 3px;
+    background: var(--clr-surface);
+    border-radius: 50%;
+    transition: transform var(--transition-base);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--clr-danger);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+/* ── Variant B: .toggle-label (order-popup 餐具选项) ── */
+.toggle-switch input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-label {
+    display: block;
+    width: 52px;
+    height: 28px;
+    background-color: #ccc;
+    border-radius: 14px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color var(--transition-slow);
+}
+
+.toggle-label::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: white;
+    top: 2px;
+    left: 2px;
+    transition: transform var(--transition-slow);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label {
+    background-color: var(--clr-primary);
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label::after {
+    transform: translateX(24px);
+}

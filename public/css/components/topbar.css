@@ -1,0 +1,109 @@
+/* ================================================================
+   components/topbar.css — 顶栏 / 品牌栏
+   被 index.html 和 account.html 共用。
+   ================================================================ */
+
+/* ── .a1 工具栏 ── */
+.a1 {
+    height: 35px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: rgb(251, 251, 251);
+}
+
+.a1-span {
+    font-size: var(--font-size-md);
+}
+
+.a1-d1 {
+    position: relative;
+    margin: 3px;
+    left: 4%;
+    display: flex;
+    align-items: center;
+}
+
+.a1-d1 img {
+    height: 16px;
+    width: auto;
+    margin-right: 3px;
+}
+
+.a1-d2 {
+    position: absolute;
+    margin-left: 3px;
+    right: 10%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.a1-d2 a {
+    text-decoration: none;
+    font-size: var(--font-size-md);
+}
+
+.user-avator {
+    cursor: pointer;
+    border-radius: 50%;
+    transition: opacity var(--transition-base);
+}
+
+.user-avator:hover {
+    opacity: 0.8;
+}
+
+/* ── .a2 品牌栏 ── */
+.a2 {
+    height: 78px;
+    width: 100%;
+    background-color: var(--clr-primary);
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.logo-left {
+    position: relative;
+    left: 50px;
+    height: 80px;
+    width: auto;
+}
+
+.logo-right {
+    position: relative;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    height: 150px;
+    left: 30px;
+    width: auto;
+}
+
+.myorder {
+    position: absolute;
+    left: 84%;
+    width: 120px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.myorder button {
+    font-size: 18px;
+    border: 1px solid #bababa;
+    height: 50px;
+    border-radius: var(--radius-sm);
+    background: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: all var(--transition-slow);
+}
+
+.myorder button:hover {
+    background-color: #4366e3;
+    border-color: var(--clr-primary);
+    color: #000;
+}

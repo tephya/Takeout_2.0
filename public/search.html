@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 | 开饭啦</title>
+    <link rel="stylesheet" href="./css/global.css">
+    <link rel="stylesheet" href="./css/pages/home.css">
+    <link rel="stylesheet" href="./css/pages/search.css">
+</head>
+
+<body>
+
+    <header class="home-topbar">
+        <a href="./index.html" class="topbar-brand">
+            <img src="./images/logo/a_home_header_logo.svg" class="topbar-logo-left" alt="开饭啦">
+            <img src="./images/logo/logo.png" class="topbar-logo-right" alt="">
+        </a>
+        <div class="topbar-search">
+            <img src="./images/system/system.png" class="topbar-search-icon" alt="">
+            <input type="text" class="topbar-search-input" placeholder="搜索餐厅或菜品...">
+        </div>
+        <div class="topbar-right">
+            <div class="topbar-lang">
+                <img src="./images/system/system.png" alt="" class="topbar-lang-icon">
+                <span>中国|简</span>
+            </div>
+            <span id="unlogin" class="topbar-login-btn" onclick="showLoginPopup()">登录</span>
+            <img src="./images/icons/user-avator.webp" class="topbar-avatar" id="is-login"
+                onclick="window.location.href='account.html?from=search'" style="cursor:pointer;">
+        </div>
+    </header>
+
+    <div class="search-page">
+        <div class="search-breadcrumb">
+            <a href="./index.html" class="search-back">← 返回首页</a>
+            <span class="search-hint">搜索：<span id="search-query-label"></span></span>
+        </div>
+
+        <div id="search-loading" class="search-state">搜索中…</div>
+        <div id="search-empty" class="search-state" style="display:none;">请输入关键词</div>
+        <div id="search-no-result" class="search-state" style="display:none;">未找到相关商家或菜品</div>
+
+        <section id="merchant-section" class="search-section" style="display:none;">
+            <div class="search-section-title">相关商家</div>
+            <div id="merchant-results" class="search-grid"></div>
+        </section>
+
+        <section id="product-section" class="search-section" style="display:none;">
+            <div class="search-section-title">相关菜品</div>
+            <div id="product-results" class="search-grid"></div>
+        </section>
+    </div>
+
+    <script src="./js/common-utils.js"></script>
+    <script src="./js/user-state.js"></script>
+    <script src="./js/load-login-modal.js"></script>
+    <script src="./js/search.js"></script>
+</body>
+
+</html>
